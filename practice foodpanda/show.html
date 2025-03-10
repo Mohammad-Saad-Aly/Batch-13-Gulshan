@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Document</title>
+
+    <style>
+      #products {
+        border: 2px solid black;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      .abc {
+        border: 1px solid black;
+        padding: 10px;
+        width: 25%;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>Items Showing</h1>
+
+    <div id="products"></div>
+
+    <script>
+      let getData = JSON.parse(localStorage.getItem("items")) || [];
+      let getProducts = document.getElementById("products");
+
+      function renderItems() {
+        getProducts.innerHTML = ""; // Clear previous items
+
+        getData.forEach((data, index) => {
+          getProducts.innerHTML += `<div class='abc' id='item-${index}'> 
+            <p> Product Id: ${data.pid} </p>
+            <p> Product Name: ${data.pname} </p>
+            <p> Product Price: ${data.pprice} </p>
+            <button> Edit </button>
+            <button onclick='delItem(${index})'> Delete </button>
+            </div>`;
+        });
+      }
+
+      function delItem(index) {
+        getData.splice(index, 1); // Remove item from array
+        localStorage.setItem("items", JSON.stringify(getData)); // Update localStorage
+        renderItems(); // Re-render items
+      }
+
+      renderItems();
+    </script>
+  </body>
+</html>
